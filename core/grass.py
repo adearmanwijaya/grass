@@ -22,9 +22,11 @@ class Grass(GrassWs, GrassRest):
         self.mined_grass_count = 0 
         self.has_mined_successfully = False  # Tambahkan ini
         if proxy:
-            if "@" in proxy:
+            parts = proxy.split(':')
+            if len(parts) == 4:
                 # Proxy dengan autentikasi
-                self.proxy = Proxy.from_str(proxy).as_url
+                ip, port, username, password = parts
+                self.proxy = f"socks://{username}:{password}@{ip}:{port}"
             else:
                 # Proxy tanpa autentikasi
                 self.proxy = f"socks://{proxy}"
